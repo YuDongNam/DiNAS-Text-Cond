@@ -17,7 +17,7 @@ This repository contains the code for the paper titled "Multi-conditioned Graph 
 
 To get started with the DiNAS editing baseline project, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/rohanasthana/DiNAS.git`
+1. Clone the repository: `git clone https://github.com/YuDongNam/DiNAS-Text-Cond.git`
 2. Load the base conda environment `environment.yml` and install additional data-handling dependencies (e.g., `rdkit`, `pandas`, `seaborn`, `tensorflow-cpu`).
 3. **Run the training process on the NAD Triplet Editing Dataset:** 
    ```bash
@@ -40,8 +40,7 @@ To get started with the DiNAS editing baseline project, follow these steps:
    python test_dryrun.py
    ```
    This script executes a full CPU-compatible forward and backward pass, testing the concatenation of sparse child graphs with dense parent structures.
-- `nasbench101`: for the NAS-Bench-101 benchmark
-- `nasbench201`: for the NAS-Bench-201 benchmark
+
 
 ## Cite this paper
 ```

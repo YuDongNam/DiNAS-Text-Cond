@@ -12,7 +12,7 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
 
 수정된 DiNAS 편집 베이스라인을 사용하려면 다음 단계를 따르세요:
 
-1. 리포지토리 클론: `git clone https://github.com/rohanasthana/DiNAS.git`
+1. 리포지토리 클론: `git clone https://github.com/YuDongNam/DiNAS-Text-Cond.git`
 2. `environment.yml`을 사용하여 기본 conda 환경을 로드하고, 데이터 연산을 위한 추가 의존성(`rdkit`, `pandas`, `seaborn`, `tensorflow-cpu`)을 설치하세요.
 3. **NAD Triplet 편집 데이터셋으로 모델 학습 시작:**
    ```bash
@@ -35,8 +35,7 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
    python test_dryrun.py
    ```
    이 스크립트는 CPU와 호환되는 전체 순전파(Forward pass) 및 역전파(Backward pass)를 실행하며, 부모 그래프 구조(Dense)와 노이즈가 낀 자식 그래프 구조(Sparse)의 병합을 테스트합니다.
-- `nasbench101`: NAS-Bench-101 벤치마크
-- `nasbench201`: NAS-Bench-201 벤치마크
+
 
 ## 논문 인용
 ```
