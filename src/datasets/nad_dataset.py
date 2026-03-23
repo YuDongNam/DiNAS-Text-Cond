@@ -63,7 +63,8 @@ class NADDataset(Dataset):
             p_n = len(parse_graph(row['parent_graph'])[0])
             c_n = len(parse_graph(row['child_graph'])[0])
             max_n = max(max_n, p_n, c_n)
-        self.max_n_nodes = max_n
+        # Hardcoded to 110 as requested (max in dataset is 106)
+        self.max_n_nodes = 110
         
         self.num_classes = len(self.vocab)
         print(f"Loaded NAD Triplet Dataset. Total examples: {len(self.data_rows)}. Vocab size: {self.num_classes}. Max nodes: {self.max_n_nodes}")
