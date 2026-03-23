@@ -13,6 +13,16 @@ This repository contains the code for the paper titled "Multi-conditioned Graph 
 ## Abstract
  Neural architecture search automates the design of neural network architectures usually by exploring a large and thus complex architecture search space. To advance the architecture search, we present a graph diffusion-based NAS approach that uses discrete conditional graph diffusion processes to generate high-performing neural network architectures. We then propose a multi-conditioned classifier-free guidance approach applied to graph diffusion networks to jointly impose constraints such as high accuracy and low hardware latency. 
 
+## Graph Editing Pipeline (How it works)
+
+This baseline modifies the standard generation process into a **conditional editing process** using the following multi-condition strategy:
+
+1. **Data Parsing:** The target `Child Graph` is loaded as a sparse tensor for the diffusion target, while the `Parent Graph` is loaded as a fixed dense tensor padded up to 110 nodes. The `Text Prompt` is embedded into a 768-D continuous condition.
+2. **Forward Diffusion (Noise):** Discrete noise is iteratively added *only* to the `Child Graph` ($z_t$). The `Parent Graph` is kept pristine to serve as the structural compass.
+3. **Condition Injection:** At every denoising step, the noisy `Child Graph` features are concatenated with the clean `Parent Graph` features along the channel dimension (`X_input = concat([X_t, X_parent], dim=-1)`). The text embedding is also provided conditionally.
+4. **Classifier-Free Guidance (CFG):** During diffusion sampling, CFG is applied to the **Text condition** (`pred = (1+W)*pred_cond - W*pred_uncond`) to control editing intensity, while the `Parent Graph` is always preserved (never dropped) to ensure structural adherence.
+5. **Generation / Inference:** The pipeline starts from pure noise $z_T \sim N(0, I)$, and denoises step-by-step $T \rightarrow 0$. At each step, it continuously references the concatenated `Parent Graph` and the CFG-guided `Text Prompt` to construct the final edited `Child Graph`.
+
 ## Getting Started
 
 To get started with the DiNAS editing baseline project, follow these steps:

@@ -8,6 +8,16 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
 ## 논문 초록
 신경망 구조 탐색(NAS)은 거대하고 복잡한 탐색 공간을 조사하여 신경망 설계 과정을 자동화합니다. 탐색 능력을 향상시키기 위해, 우리는 이산 조건부 그래프 확산 프로세스(Discrete Conditional Graph Diffusion)를 사용하는 그래프 확산 기반 NAS 방식을 제시합니다. 우리는 높은 정확도 및 낮은 하드웨어 지연 시간과 같은 복합적인 제약 조건을 통제할 수 있도록 모델을 설계하였습니다. 
 
+## 그래프 편집 파이프라인 (How it works)
+
+본 베이스라인은 원본의 무작위 파이프라인을 다음과 같은 다중 조건(Multi-condition) 전략을 통해 **그래프 편집 프로세스**로 개조하여 작동합니다:
+
+1. **데이터 전처리:** 확산(Diffusion)의 타겟이 되는 `Child Graph`는 희소 텐서(Sparse)로 로드되며, 기준이 되는 `Parent Graph`는 최대 노드 수 110에 맞춰 패딩된 밀집 텐서(Dense)로 고정 로드됩니다. 편집 지시문인 `Text Prompt`는 768차원 벡터로 임베딩됩니다.
+2. **노이즈 스케줄링 (Forward Diffusion):** 정답인 `Child Graph`($z_t$)에만 이산 노이즈(Discrete noise)가 가해집니다. `Parent Graph`는 원본 구조를 안내하는 나침반 역할을 해야 하므로 노이즈가 섞이지 않고 깨끗하게 유지됩니다.
+3. **조건 정보 병합 (Concatenation):** 노이즈 상태의 $z_t$를 신경망(Transformer)에 통과시키기 전, 온전한 `Parent Graph`의 노드 및 엣지 특징을 마지막 Feature 차원에 이어붙입니다 (`X_input = concat([X_t, X_parent])`).
+4. **분류기 없는 안내 (Classifier-Free Guidance, CFG):** 편집 강도를 조절하기 위한 CFG 기법은 **텍스트 임베딩(Text condition)**에만 적용됩니다. 부모 그래프 정보는 원본 구조의 붕괴를 막기 위해 드롭아웃(Unconditioned) 패스에서도 항상 보존됩니다.
+5. **추론 및 편집 (Inference):** 이산 확산 모델의 본래 수학적 근간을 유지하기 위해 $z_\tau$가 아닌 완전한 노이즈 상태 $z_T$에서부터 Denoising 샘플링을 시작합니다. 모델은 매 스텝마다 부모 그래프의 뼈대를 참조하며 텍스트가 지시한 대로 `Child Graph`를 깎아냅니다.
+
 ## 시작하기
 
 수정된 DiNAS 편집 베이스라인을 사용하려면 다음 단계를 따르세요:
