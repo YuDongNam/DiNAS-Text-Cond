@@ -141,17 +141,45 @@ class NADDataModule(MolecularDataModule):
         pass
         
     def setup(self, stage=None):
+        from collections import defaultdict
+        import numpy as np
+        from torch.utils.data import Subset
+        
         graphs = NADDataset(self.dataset_name, self.embeddings_file)
         
-        total = len(graphs)
-        test_len = min(500, int(total * 0.05)) # small test size 
-        val_len = min(500, int(total * 0.05))
-        train_len = total - test_len - val_len
-        print(f'Dataset sizes: train {train_len}, val {val_len}, test {test_len}')
+        # 1. Group indices by dataset attribute for stratified splitting
+        dataset_indices = defaultdict(list)
+        for i, row in enumerate(graphs.data_rows):
+            ds_name = row.get('dataset', 'unknown')
+            dataset_indices[ds_name].append(i)
+            
+        train_indices = []
+        val_indices = []
+        test_indices = []
         
-        splits = random_split(graphs, [train_len, val_len, test_len], generator=torch.Generator().manual_seed(1234))
+        # 2. Random but deterministic generation to ensure repeatability
+        rng = np.random.default_rng(1234)
         
-        datasets = {'train': splits[0], 'val': splits[1], 'test': splits[2]}
+        for ds_name, indices in dataset_indices.items():
+            rng.shuffle(indices)
+            total_ds = len(indices)
+            
+            # Exact 10% ratios per sub-dataset as previously documented
+            test_len = int(total_ds * 0.1)
+            val_len = int(total_ds * 0.1)
+            train_len = total_ds - test_len - val_len
+            
+            train_indices.extend(indices[:train_len])
+            val_indices.extend(indices[train_len:train_len+val_len])
+            test_indices.extend(indices[train_len+val_len:])
+            
+        train_dataset = Subset(graphs, train_indices)
+        val_dataset = Subset(graphs, val_indices)
+        test_dataset = Subset(graphs, test_indices)
+        
+        print(f'Dataset sizes: train {len(train_dataset)}, val {len(val_dataset)}, test {len(test_dataset)} (Stratified)')
+        
+        datasets = {'train': train_dataset, 'val': val_dataset, 'test': test_dataset}
         super().prepare_datas(datasets)
 
 class NADDatasetInfos(AbstractDatasetInfos):
