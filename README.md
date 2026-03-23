@@ -35,9 +35,11 @@ To get started with the DiNAS editing baseline project, follow these steps:
    - **Novelty:** Proportion of generated graphs NOT present in the training set.
    - **Latency (Simulated):** A simulated latency proxy metric based on graph depth/nodes.
 
-5. Run the original generation training process: `python main_reg_free.py --dataset nasbench101`
-
-- `nad`: for the NAD Triplet Editing benchmark (New!)
+5. **Run the training process on the NAD Triplet Editing Dataset:** 
+   ```bash
+   python main_reg_free.py dataset=nad
+   ```
+   This command starts the diffusion model training using the multi-conditioned editing configurations.
 - `nasbench101`: for the NAS-Bench-101 benchmark
 - `nasbench201`: for the NAS-Bench-201 benchmark
 

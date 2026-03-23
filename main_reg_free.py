@@ -27,6 +27,7 @@ from src.datasets.nasbenchNLPdataset_reg_free import NASBenchNLPDataset,NASBench
 from src.datasets.nasbenchHWdataset_reg_free import NASBenchHWDataset,NASBenchHWDatasetInfos, NASBenchHWDataModule
 from src.datasets.nasbenchImageNetdataset_reg_free import NASBenchImageNetDataset,NASBenchImageNetDatasetInfos, NASBenchImageNetDataModule
 from src.datasets.spectre_dataset import SBMDataModule, Comm20DataModule, PlanarDataModule, SpectreDatasetInfos
+from src.datasets.nad_dataset import NADDataset, NADDatasetInfos, NADDataModule
 from src.metrics.abstract_metrics import TrainAbstractMetricsDiscrete, TrainAbstractMetrics
 from src.metrics.nasbenchmetrics import TrainNASBenchMetricsDiscrete, SamplingNASBenchMetrics
 
@@ -191,6 +192,23 @@ def main(cfg: DictConfig):
                         'extra_features': extra_features, 'domain_features': domain_features}
         
                 
+    elif dataset_config.name == 'nad':
+        print('Training on NAD Triplet Editing Dataset')
+        datamodule = NADDataModule(cfg)
+        dataset_infos = NADDatasetInfos(datamodule, dataset_config)
+        train_smiles = None
+        extra_features = DummyExtraFeatures()
+        domain_features = DummyExtraFeatures()
+        dataset_infos.compute_input_output_dims(datamodule, extra_features, domain_features)
+        
+        train_metrics = TrainAbstractMetricsDiscrete() if cfg.model.type == 'discrete' else TrainAbstractMetrics()
+        sampling_metrics = Comm20SamplingMetrics(datamodule.dataloaders()) # Placeholder metrics since actual evaluate.py handles uniqueness/validity
+        visualization_tools = NonMolecularVisualization()
+        
+        model_kwargs = {'dataset_infos': dataset_infos, 'train_metrics': train_metrics,
+                        'sampling_metrics': sampling_metrics, 'visualization_tools': visualization_tools,
+                        'extra_features': extra_features, 'domain_features': domain_features}
+
     elif dataset_config.name=='nasbench101':
         datamodule=NASBenchDataModule(cfg)
         dataset_infos = NASBenchDatasetInfos(datamodule, dataset_config)

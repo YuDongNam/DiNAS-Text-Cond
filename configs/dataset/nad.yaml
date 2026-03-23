@@ -1,0 +1,4 @@
+name: 'nad'
+datadir: 'NAD_triplet_dataset.jsonl'
+embeddings_file: ''
+remove_h: False

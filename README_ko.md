@@ -30,9 +30,11 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
    - **Novelty (참신성):** 훈련 데이터셋(Training set)에 존재하지 않는 새로운 그래프의 비율.
    - **Latency (지연 시간):** 그래프 깊이 및 노드 수를 기반으로 한 시뮬레이션 지연 시간.
 
-5. 원본 생성 모델 훈련 스크립트 실행: `python main_reg_free.py --dataset nasbench101`
-
-- `nad`: NAD Triplet Editing 벤치마크 (새로 추가됨!)
+5. **NAD Triplet 편집 데이터셋으로 모델 학습 시작:**
+   ```bash
+   python main_reg_free.py dataset=nad
+   ```
+   이 명령어는 다중 조건(Multi-conditioned) 편집 환경 설정을 사용하여 확산 모델(Diffusion) 학습을 시작합니다.
 - `nasbench101`: NAS-Bench-101 벤치마크
 - `nasbench201`: NAS-Bench-201 벤치마크
 
