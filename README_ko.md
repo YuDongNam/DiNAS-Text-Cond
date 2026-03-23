@@ -14,11 +14,11 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
 
 1. 리포지토리 클론: `git clone https://github.com/rohanasthana/DiNAS.git`
 2. `environment.yml`을 사용하여 기본 conda 환경을 로드하고, 데이터 연산을 위한 추가 의존성(`rdkit`, `pandas`, `seaborn`, `tensorflow-cpu`)을 설치하세요.
-3. **그래프 편집 태스크 테스트:** 검증된 Dry-run 스크립트를 실행합니다.
+3. **NAD Triplet 편집 데이터셋으로 모델 학습 시작:**
    ```bash
-   python test_dryrun.py
+   python main_reg_free.py dataset=nad
    ```
-   이 스크립트는 CPU와 호환되는 전체 순전파(Forward pass) 및 역전파(Backward pass)를 실행합니다. 하이드라(Hydra)를 우회하며, 텍스트 임베딩 파일이 제공되지 않으면 더미 임베딩을 이용해 부모 그래프 구조(Dense)와 노이즈가 낀 자식 그래프 구조(Sparse)의 병합을 테스트합니다.
+   이 명령어는 다중 조건(Multi-conditioned) 편집 환경 설정을 사용하여 확산 모델(Diffusion) 학습을 시작합니다.
 
 4. **평가 지표 (Evaluation Metrics):** 편집 태스크를 위한 평가 모듈을 제공합니다.
    ```bash
@@ -30,11 +30,11 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
    - **Novelty (참신성):** 훈련 데이터셋(Training set)에 존재하지 않는 새로운 그래프의 비율.
    - **Latency (지연 시간):** 그래프 깊이 및 노드 수를 기반으로 한 시뮬레이션 지연 시간.
 
-5. **NAD Triplet 편집 데이터셋으로 모델 학습 시작:**
+5. **그래프 편집 태스크 테스트 (Dry-run):** 검증된 로컬 작동 확인용 스크립트입니다.
    ```bash
-   python main_reg_free.py dataset=nad
+   python test_dryrun.py
    ```
-   이 명령어는 다중 조건(Multi-conditioned) 편집 환경 설정을 사용하여 확산 모델(Diffusion) 학습을 시작합니다.
+   이 스크립트는 CPU와 호환되는 전체 순전파(Forward pass) 및 역전파(Backward pass)를 실행하며, 부모 그래프 구조(Dense)와 노이즈가 낀 자식 그래프 구조(Sparse)의 병합을 테스트합니다.
 - `nasbench101`: NAS-Bench-101 벤치마크
 - `nasbench201`: NAS-Bench-201 벤치마크
 

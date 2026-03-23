@@ -19,11 +19,11 @@ To get started with the DiNAS editing baseline project, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/rohanasthana/DiNAS.git`
 2. Load the base conda environment `environment.yml` and install additional data-handling dependencies (e.g., `rdkit`, `pandas`, `seaborn`, `tensorflow-cpu`).
-3. **Graph Editing Task Testing:** Run the verified dry-run script.
+3. **Run the training process on the NAD Triplet Editing Dataset:** 
    ```bash
-   python test_dryrun.py
+   python main_reg_free.py dataset=nad
    ```
-   This script executes a full CPU-compatible forward and backward pass, testing the concatenation of sparse child graphs with dense parent structures, bypassing `Hydra` and utilizing dummy text embeddings if an embedding file is not provided.
+   This command starts the diffusion model training using the multi-conditioned editing configurations.
 
 4. **Evaluation Metrics:** We provide a dedicated evaluation suite for the editing task.
    ```bash
@@ -35,11 +35,11 @@ To get started with the DiNAS editing baseline project, follow these steps:
    - **Novelty:** Proportion of generated graphs NOT present in the training set.
    - **Latency (Simulated):** A simulated latency proxy metric based on graph depth/nodes.
 
-5. **Run the training process on the NAD Triplet Editing Dataset:** 
+5. **Graph Editing Task Testing (Dry-run):** Run the verified dry-run script to verify local functionality without full training.
    ```bash
-   python main_reg_free.py dataset=nad
+   python test_dryrun.py
    ```
-   This command starts the diffusion model training using the multi-conditioned editing configurations.
+   This script executes a full CPU-compatible forward and backward pass, testing the concatenation of sparse child graphs with dense parent structures.
 - `nasbench101`: for the NAS-Bench-101 benchmark
 - `nasbench201`: for the NAS-Bench-201 benchmark
 
