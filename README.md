@@ -51,7 +51,6 @@ To get started with the DiNAS editing baseline project, follow these steps:
    - **Validity:** Proportion of graphs passing semantic constraints.
    - **Uniqueness:** Diversity among the generated samples.
    - **Novelty:** Proportion of generated graphs NOT present in the training set.
-   - **Latency (Simulated Proxy):** A simulated latency proxy metric based on logical graph depth and node counts. **Note:** This is an algorithmic surrogate for baseline demonstration, not actual hardware metrics.
 
 
 ## Cite this paper

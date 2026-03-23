@@ -107,27 +107,6 @@ class DiNASEvaluator:
             
         return True
 
-    def estimate_latency(self, nodes, edges):
-        """
-        Dummy Latency Estimator:
-        Currently, returns an arbitrary computation based on # of heavy operations (like Conv2d/Linear).
-        Integrate with proper NASBench-101/201 predictor here later.
-        """
-        latency = 0.0
-        for node in nodes:
-            if 'Conv2d' in node:
-                latency += 1.5
-            elif 'Linear' in node:
-                latency += 0.8
-            elif 'Pool' in node:
-                latency += 0.5
-            else:
-                latency += 0.1 # Relu, BN, etc.
-        
-        # Penalty for more edges (communications)
-        latency += len(edges) * 0.05
-        return latency
-
     def evaluate_batch(self, X_tensors, E_tensors):
         """
         Evaluate a batch of generated graphs.
@@ -158,15 +137,10 @@ class DiNASEvaluator:
         novel_graphs = [s for s in unique_strs if s not in self.training_graphs]
         novelty = len(novel_graphs) / len(unique_strs) if unique_strs else 0.0
         
-        # 4. Latency
-        latencies = [self.estimate_latency(g['nodes'], g['edges']) for g in valid_graphs]
-        avg_latency = sum(latencies) / len(latencies) if latencies else 0.0
-
         metrics = {
             'Validity': validity,
             'Uniqueness': uniqueness,
             'Novelty': novelty,
-            'Avg_Latency_ms': avg_latency,
             'Num_Generated': batch_size,
             'Num_Valid': len(valid_graphs)
         }

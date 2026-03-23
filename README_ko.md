@@ -46,7 +46,6 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
    - **Validity (유효성):** 논리적 그래프 제약을 통과하는 그래프의 비율.
    - **Uniqueness (고유성):** 생성된 샘플들 간의 구조적 다양성.
    - **Novelty (참신성):** 훈련 데이터셋(Training set)에 존재하지 않는 새로운 그래프의 비율.
-   - **Latency (지연 시간 시뮬레이션):** 그래프 깊이 및 노드 수를 기반으로 한 시뮬레이션 지연 시간 지표입니다. **주의:** 실제 하드웨어 측정값이 아닌 알고리즘적으로 추산된 논리적 시뮬레이션(Proxy) 지표임을 유의해 주세요.
 
 
 ## 논문 인용
