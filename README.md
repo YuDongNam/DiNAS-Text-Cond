@@ -31,17 +31,17 @@ To get started with the DiNAS editing baseline project, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/YuDongNam/DiNAS-Text-Cond.git`
 2. Load the base conda environment `environment.yml` and install additional data-handling dependencies (e.g., `rdkit`, `pandas`, `seaborn`, `tensorflow-cpu`).
-3. **Graph Editing Task Testing (Dry-run):** Run the verified dry-run script to verify local functionality without full training.
-   ```bash
-   python test_dryrun.py
-   ```
-   This script executes a full CPU-compatible forward and backward pass, testing the concatenation of sparse child graphs with dense parent structures.
-
-4. **Run the training process on the NAD Triplet Editing Dataset:** 
+3. **Run the training process on the NAD Triplet Editing Dataset:** 
    ```bash
    python main_reg_free.py dataset=nad
    ```
    This command starts the diffusion model training using the multi-conditioned editing configurations.
+
+4. **Graph Editing Task Testing (Dry-run):** Run the verified dry-run script to verify local functionality.
+   ```bash
+   python test_dryrun.py
+   ```
+   This script executes a full CPU-compatible forward and backward pass, testing the concatenation of sparse child graphs with dense parent structures.
 
 5. **Evaluation Metrics:** We provide a dedicated evaluation suite for the editing task.
    ```bash

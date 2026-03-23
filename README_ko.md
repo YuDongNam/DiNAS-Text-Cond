@@ -26,17 +26,17 @@ Rohan Asthana, Joschua Conrad, Youssef Dawoud, Maurits Ortmanns, Vasileios Belag
 
 1. 리포지토리 클론: `git clone https://github.com/YuDongNam/DiNAS-Text-Cond.git`
 2. `environment.yml`을 사용하여 기본 conda 환경을 로드하고, 데이터 연산을 위한 추가 의존성(`rdkit`, `pandas`, `seaborn`, `tensorflow-cpu`)을 설치하세요.
-3. **그래프 편집 태스크 테스트 (Dry-run):** 검증된 로컬 작동 확인용 스크립트입니다.
-   ```bash
-   python test_dryrun.py
-   ```
-   이 스크립트는 CPU와 호환되는 전체 순전파(Forward pass) 및 역전파(Backward pass)를 실행하며, 부모 그래프 구조(Dense)와 노이즈가 낀 자식 그래프 구조(Sparse)의 병합을 테스트합니다.
-
-4. **NAD Triplet 편집 데이터셋으로 모델 학습 시작:**
+3. **NAD Triplet 편집 데이터셋으로 모델 학습 시작:**
    ```bash
    python main_reg_free.py dataset=nad
    ```
    이 명령어는 다중 조건(Multi-conditioned) 편집 환경 설정을 사용하여 확산 모델(Diffusion) 학습을 시작합니다.
+
+4. **그래프 편집 태스크 테스트 (Dry-run):** 검증된 로컬 작동 확인용 스크립트입니다.
+   ```bash
+   python test_dryrun.py
+   ```
+   이 스크립트는 CPU와 호환되는 전체 순전파(Forward pass) 및 역전파(Backward pass)를 실행하며, 부모 그래프 구조(Dense)와 노이즈가 낀 자식 그래프 구조(Sparse)의 병합을 테스트합니다.
 
 5. **평가 지표 (Evaluation Metrics):** 편집 태스크를 위한 평가 모듈을 제공합니다.
    ```bash
